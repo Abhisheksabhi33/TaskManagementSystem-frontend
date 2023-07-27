@@ -1,0 +1,49 @@
+<main class="container">
+  <img class="logo" src="../../assets/images/task.png" alt=" logo" />
+
+  <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm" class="shadow-lg">
+    <h1>Log In</h1>
+    <div *ngIf="invalidCredentials" class="alert alert-warning">
+      <p>Invalid Credentials, email/password incorrect</p>
+    </div>
+    <div *ngIf="serverSide" class="alert alert-danger">
+      <p>Something went wrong on our servers :(</p>
+    </div>
+    <div *ngIf="userNotFound" class="alert alert-primary">
+      <p>User does not exist</p>
+    </div>
+    <input
+      type="email"
+      placeholder="Enter your email"
+      name="email"
+      class="form-control"
+      required
+      ngModel
+    />
+    <input
+      type="password"
+      placeholder="Enter your password"
+      name="password"
+      class="form-control"
+      required
+      ngModel
+    />
+    <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">
+      Login
+    </button>
+
+    <hr />
+
+    <div class="additional-section">
+      <a href="#">Forgot Password?</a>
+      <span> - </span>
+      <a routerLink="/register">Create an Account</a>
+    </div>
+
+    <div class="additional-section-footer">
+      <a>Terms of Service</a>
+      <span> - </span>
+      <a>Privacy Policy</a>
+    </div>
+  </form>
+</main>

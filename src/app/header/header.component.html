@@ -1,0 +1,35 @@
+<header class="shadow">
+  <a routerLink="/" class="logo">
+    <img src="../../assets/images/task.png" alt="Logo" />
+    <span> Task Management System </span>
+  </a>
+  <nav>
+    <ul>
+      <li *ngIf="!user && !main">
+        <a routerLink="/login" class="text-dark">Log In</a>
+      </li>
+      <li *ngIf="!user && !main">
+        <a routerLink="/register" class="btn btn-primary btn-lg">Get Started</a>
+      </li>
+      <li *ngIf="!landing && !user" class="profile-icon">
+        <img
+          src="../../assets/images/man.png"
+          (click)="toggleProfileMenu()"
+          alt="Person icon"
+        />
+        <div *ngIf="profileMenu" class="profile shadow">
+          
+          <div class="profile-row">
+            <div class="profile-img">
+              <img src="../../assets/images/task.png" alt="" />
+            </div>
+            <div class="profile-content" (click)="logout()">
+              <span>Logout</span>
+            </div>
+          </div>
+         
+        </div>
+      </li>
+    </ul>
+  </nav>
+</header>

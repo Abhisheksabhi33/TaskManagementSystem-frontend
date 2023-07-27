@@ -1,0 +1,143 @@
+
+<main>
+  <div class="tasks shadow-sm">
+    <div class="tasks-info">
+      <h1>Tasks</h1>
+      <i
+        class="fas fa-tasks"
+        style="font-size: 32px; color: #000000"
+      ></i>
+    </div>
+    <div class="tasks-panel">
+      <div class="tasks-filter">
+        <div class="add-task" (click)="addTask()">
+          <i
+            class="fas fa-plus-circle"
+            style="font-size: 24px; color: #000000"
+          ></i>
+          <span>Add Task</span>
+        </div>
+        <div class="search-task">
+          <i
+            class="fas fa-search"
+            style="font-size: 20px; color: #000000"
+          ></i>
+          <input
+            type="text"
+            name="search"
+            class=""
+            (keyup)="onSearch(search)"
+            placeholder="Search Any Task"
+            #search
+          />
+        </div>
+        <div class="sort-task">
+          <i
+            class="fas fa-sort"
+            style="font-size: 24px; color: #000000"
+          ></i>
+          <select class="" name="sort" (change)="sortSelected(sorter)" #sorter>
+            <option value="default">Sort</option>
+            <option value="date">Date</option>
+            <option value="status">Status</option>
+            <option value="name">Name</option>
+            <option value="Priority">Priority Level</option>
+          </select>
+        </div>
+        <button class="btn btn-primary csvButton" (click)="importToCSV()">
+          Import to CSV
+        </button>
+      </div>
+
+      <div class="tasks-container">
+        <div *ngIf="tasks.length === 0" class="no-tasks">
+          <h2>No Tasks To Show</h2>
+        </div>
+        <div *ngFor="let task of tasks" class="tasks-card">
+          <div class="title">
+            <h2>{{ task.title }}</h2>
+          </div>
+          <div class="card-body">
+            <div class="notes overflow-auto">
+              <h3>Task Description</h3>
+              <div *ngFor="let note of task.notes">
+                <p>{{ note }}</p>
+              </div>
+            </div>
+
+            <div class="status">
+              <i
+                *ngIf="task.status === 'completed'"
+                class="fas fa-check-circle text-success"
+                 style="font-size: 24px; color: #000000"
+              ></i>
+              <i
+                *ngIf="task.status === 'in-progress'"
+                class="fas fa-spinner text-warning"
+                style="font-size: 24px; color: #000000"
+              ></i>
+              <i
+                *ngIf="task.status === 'to-do'"
+                class="fas fa-times-circle text-danger"
+                style="font-size: 24px; color: #000000"
+              ></i>
+              <span>{{ task.status }}</span>
+            </div>
+
+            <div class="status">
+              <i
+                *ngIf="task.Priority === 'High'"
+                class="fas fa-exclamation-circle text-success"
+                style="font-size: 24px; color: #000000"
+              ></i>
+              <i
+                *ngIf="task.Priority === 'Medium'"
+                class="fas fa-exclamation-triangle text-warning"
+                style="font-size: 24px; color: #000000"
+              ></i>
+              <i
+                *ngIf="task.Priority === 'Low'"
+                class="fas fa-exclamation text-danger"
+                style="font-size: 24px; color: #000000"
+              ></i>
+              <span>{{ task.Priority }}</span>
+            </div>
+
+            <div class="date">
+              <i
+                class="far fa-calendar-alt"
+                style="font-size: 24px; color: #000000"
+              ></i>
+              <span>{{ task.date.toISOString().split("T")[0] }}</span>
+            </div>
+
+            <div class="buttons">
+              <button class="btn btn-primary delete" (click)="editTask(task)">
+                Edit
+              </button>
+
+              <button
+                class="btn btn-danger delete"
+                (click)="deleteTask(task._id)"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<app-add-task
+  *ngIf="taskAddWindow"
+  (state)="addTaskStateChanged($event)"
+  (newTask)="addedNewTask($event)"
+></app-add-task>
+<app-edit-task
+  *ngIf="taskEditWindow"
+  (state)="editTaskStateChanged($event)"
+  (newTask)="editedTask($event)"
+  [task]="editTaskInput"
+></app-edit-task>
